@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coalition UNION · ENASTIC | La force du collectif</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@500;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #090d16;
+      --bg-surface: rgba(17, 24, 39, 0.88);
+      --bg-card: rgba(30, 41, 59, 0.72);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-blue: #2563eb;
+      --accent-cyan: #06b6d4;
+      --border: rgba(255, 255, 255, 0.14);
+    }
+
+    body.light-mode {
+      --bg-body: #f4f7fb;
+      --bg-surface: rgba(255, 255, 255, 0.92);
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent-gold: #d97706;
+      --accent-gold-light: #f59e0b;
+      --accent-blue: #1d4ed8;
+      --accent-cyan: #0284c7;
+      --border: rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    #networkCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.45;
+    }
+
+    #fireworksCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .toast-banner {
+      position: fixed;
+      top: -90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(6, 182, 212, 0.45);
+      z-index: 10000;
+      transition: top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast-banner.show {
+      top: 20px;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.75);
+      }
+
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 24px 8px rgba(245, 158, 11, 0.45);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+      }
+    }
+
+    .floating-support-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9990;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+      color: #0f172a;
+      border: 2px solid #fff;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: pulseGlow 1.6s infinite ease-in-out;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-surface);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 74px;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-gold-light);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chip-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      color: #fff;
+    }
+
+    .btn-glass {
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      color: #fff;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .single-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      filter: brightness(0.72);
+      display: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+      color: #0f172a;
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      color: #fff;
+    }
+
+    /* Bannière d'accueil agrandie (490px) avec 10 colonnes côte à côte et prénoms alignés tout en bas */
+    .hero-section {
+      padding: 32px 0 24px;
+    }
+
+    .hero-banner-card {
+      position: relative;
+      height: 490px;
+      border-radius: 26px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #172554 100%);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.42);
+    }
+
+    .team-columns {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+    }
+
+    .team-col {
+      position: relative;
+      height: 100%;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .team-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0.62;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .team-col:hover img {
+      opacity: 0.92;
+      transform: scale(1.04);
+    }
+
+    .col-name-label {
+      position: absolute;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .hero-overlay-center {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(9, 13, 22, 0.72) 0%, rgba(9, 13, 22, 0.52) 50%, rgba(9, 13, 22, 0.92) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 24px 58px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-overlay-center .btn,
+    .hero-overlay-center a {
+      pointer-events: auto;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.22);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-light);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 820px;
+      color: #fff;
+      margin-bottom: 14px;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: #e2e8f0;
+      margin-bottom: 24px;
+      max-width: 660px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+
+    /* 3 Cartes statistiques sous la bannière (identique à votre capture) */
+    .stats-trio {
+      display: grid;
+      grid-template-columns: 1.5fr 0.75fr 0.75fr;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-bg {
+      height: 12px;
+      background: rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 64%;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    /* Organigramme avec tirets lumineux + images plein cadre */
+    section {
+      padding: 48px 0;
+    }
+
+    .sec-head {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .sec-head span {
+      color: var(--accent-gold-light);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .sec-head h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .org-tree-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes dashFlow {
+      to {
+        background-position: 0 24px;
+      }
+    }
+
+    .glow-connector-v {
+      width: 4px;
+      height: 36px;
+      background-image: linear-gradient(to bottom, var(--accent-gold-light) 50%, transparent 50%);
+      background-size: 4px 12px;
+      filter: drop-shadow(0 0 6px var(--accent-gold));
+      animation: dashFlow 1s linear infinite;
+    }
+
+    .glow-connector-h {
+      width: 72%;
+      max-width: 760px;
+      height: 4px;
+      background-image: linear-gradient(to right, var(--accent-cyan) 50%, transparent 50%);
+      background-size: 16px 4px;
+      filter: drop-shadow(0 0 8px var(--accent-cyan));
+      margin-bottom: 18px;
+      border-radius: 4px;
+    }
+
+    .org-level {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+      width: 100%;
+    }
+
+    .member-card {
+      position: relative;
+      width: 265px;
+      height: 360px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: #0f172a;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .member-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-gold);
+      box-shadow: 0 18px 38px rgba(245, 158, 11, 0.28);
+    }
+
+    .member-card.featured {
+      border: 2px solid var(--accent-gold-light);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+    }
+
+    .member-full-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease;
+    }
+
+    .member-card:hover .member-full-img {
+      transform: scale(1.05);
+    }
+
+    .member-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 13, 22, 0.96) 18%, rgba(9, 13, 22, 0.62) 55%, rgba(9, 13, 22, 0.1) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .role-badge {
+      display: inline-block;
+      align-self: center;
+      background: rgba(37, 99, 235, 0.85);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .member-overlay h3 {
+      font-size: 1.18rem;
+      font-weight: 800;
+    }
+
+    .member-filiere {
+      font-size: 0.84rem;
+      color: #fde68a;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(15, 23, 42, 0.82);
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .mini-btn.personal-site {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+      color: #0f172a;
+      border: none;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .info-card h3 {
+      color: var(--accent-gold-light);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .info-card p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+    }
+
+    footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding: 54px 0 90px;
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+
+    .footer-col h4 {
+      color: var(--accent-gold-light);
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .footer-col p,
+    .footer-col li {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      list-style: none;
+    }
+
+    .footer-col a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-slot {
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero-banner-card {
+        height: 540px;
+      }
+
+      .team-columns {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .stats-trio {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="networkCanvas"></canvas>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <div class="toast-banner" id="toastBanner">
+    🎉 <span id="toastText">Merci pour votre soutien à la Coalition UNION !</span>
+  </div>
+
+  <button class="floating-support-btn" onclick="supportCoalition()" id="floatingSupportBtn">
+    ❤ <span data-i18n="floatSupport">Soutenir l'UNION</span>
+  </button>
+
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <span class="brand-badge">UNION</span>
+        <span data-i18n="navTitle">Coalition UNION · ENASTIC</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#organigramme">Organigramme</a>
+        <a href="#objectifs">Objectifs & Engagements</a>
+        <a href="#footer-infos">Infos & Contact</a>
+      </nav>
+      <div class="controls">
+        <button class="chip-btn" onclick="toggleLang()" id="langBtn">🇸🇦 العربية</button>
+        <button class="chip-btn" onclick="toggleTheme()" id="themeBtn">☀️ Mode Clair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="accueil">
+    <section class="hero-section">
+      <div class="hero-banner-card">
+        <div class="team-columns" id="teamColumns"></div>
+        <div class="hero-overlay-center">
+          <div class="hero-tag" id="heroTag">COALITION OFFICIELLE · ENASTIC</div>
+          <h1 class="hero-title" id="heroTitle">La force du collectif, c’est la voix des étudiants de l’ENASTIC</h1>
+          <p class="hero-desc" id="heroDesc">
+            10 candidats unis, toutes les filières représentées, un programme ambitieux pour transformer notre vie
+            étudiante.
+          </p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;" id="heroButtons">
+            <button class="btn btn-gold" onclick="supportCoalition()">🤝 Soutenir la Coalition UNION</button>
+            <a href="#organigramme" class="btn btn-blue">Découvrir les 10 membres</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-trio">
+        <div class="stat-card">
+          <div class="progress-top">
+            <span>Mobilisation Globale Coalition UNION</span>
+            <span style="color: var(--accent-gold-light);" id="coalitionPctText">64%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="coalitionProgressBar"></div>
+          </div>
+          <small style="color: var(--text-muted);">Chaque soutien renforce notre dynamique collective jusqu'au 29
+            novembre.</small>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-row">
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">SOUTIENS ACTIFS</div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--accent-cyan);" id="coalitionCountText">129
+              </div>
+            </div>
+            <div style="font-size: 1.8rem;">🚀</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-row">
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">SCRUTIN OFFICIEL</div>
+              <div style="font-size: 1.45rem; font-weight: 800; color: var(--accent-gold-light);">29 Nov. 2026</div>
+            </div>
+            <div style="font-size: 1.8rem;">🗳️</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="organigramme">
+      <div class="sec-head">
+        <span data-i18n="orgTag">Architecture & Leadership</span>
+        <h2 data-i18n="orgTitle">Organigramme de la Coalition UNION</h2>
+      </div>
+
+      <div class="org-tree-wrapper">
+        <div class="org-level" id="orgLevel1"></div>
+        <div class="glow-connector-v"></div>
+        <div class="glow-connector-h"></div>
+
+        <div class="org-level" id="orgLevel2"></div>
+        <div class="glow-connector-v"></div>
+        <div class="glow-connector-h"></div>
+
+        <div class="org-level" id="orgLevel3"></div>
+        <div class="glow-connector-v"></div>
+        <div class="glow-connector-h"></div>
+
+        <div class="org-level" id="orgLevel4"></div>
+      </div>
+    </section>
+
+    <section id="objectifs">
+      <div class="sec-head">
+        <span>Notre Feuille de Route Commune</span>
+        <h2>Les 6 Objectifs & Engagements de la Coalition UNION</h2>
+      </div>
+      <div class="grid-3">
+        <div class="info-card">
+          <h3>01. Transparence & Gouvernance Numérique</h3>
+          <p>Publication systématique des comptes rendus de réunions et gestion claire des ressources du Club des
+            Étudiants.</p>
+        </div>
+        <div class="info-card">
+          <h3>02. Excellence Académique & Mentorat</h3>
+          <p>Organisation de séances de tutorat inter-promotions (L1, L2, L3) et d'ateliers pratiques en TIC, réseaux et
+            programmation.</p>
+        </div>
+        <div class="info-card">
+          <h3>03. Éloquence, Culture & Sport</h3>
+          <p>Relance des concours d'éloquence, tournois sportifs inter-salles et journées culturelles valorisant tous
+            les talents.</p>
+        </div>
+        <div class="info-card">
+          <h3>04. Écoute Active dans Chaque Salle</h3>
+          <p>Mise en place d'un réseau de référents de salles relié directement au Secrétariat Général pour résoudre
+            rapidement vos préoccupations.</p>
+        </div>
+        <div class="info-card">
+          <h3>05. Partenariats & Insertion Professionnelle</h3>
+          <p>Création de passerelles avec les entreprises numériques et institutions pour faciliter les stages et
+            conférences métiers.</p>
+        </div>
+        <div class="info-card">
+          <h3>06. Cohésion & Solidarité Étudiante</h3>
+          <p>Accueil et intégration réussie des nouveaux bacheliers et entraide permanente entre toutes les filières de
+            l'ENASTIC.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer-infos">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Coalition UNION · ENASTIC</h4>
+          <p>« La force du collectif, c'est la voix des étudiants de l'ENASTIC. »</p>
+          <p><strong>Élections du Club des Étudiants :</strong><br>Campagne : 21 au 28 Novembre 2026<br>Vote officiel :
+            29 Novembre 2026</p>
+          <div class="footer-slot">📌 Espace réservé : Devise officielle ou communiqué final de la coalition</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation & Candidatures</h4>
+          <ul>
+            <li><a href="#accueil">↑ Haut de page (Accueil)</a></li>
+            <li><a href="#organigramme">→ Organigramme des 10 membres</a></li>
+            <li><a href="#objectifs">→ Programme & 6 Objectifs</a></li>
+            <li><a href="samcampagneSGA-v4.html">→ Site personnel : Samir Dahab (SGA)</a></li>
+          </ul>
+          <div class="footer-slot">🔗 Liens des autres candidats (à compléter après réunion)</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact & Permanence</h4>
+          <p>📍 Campus ENASTIC — N'Djamena, Tchad</p>
+          <p>✉️ Email : <a href="mailto:samirfilsdelor3@gmail.com">samirfilsdelor3@gmail.com</a></p>
+          <p>💬 Assistance directe : <a href="https://wa.me/23566250646" target="_blank">Consulter sur WhatsApp</a></p>
+          <div class="footer-slot">🕒 Permanence salle Info 2 / Bureau provisoire</div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Réseaux & Informations</h4>
+          <p>Suivez l'actualité de la campagne en temps réel :</p>
+          <ul>
+            <li><a href="#footer-infos">• Page Facebook Coalition UNION</a></li>
+            <li><a href="#footer-infos">• Compte Instagram UNION</a></li>
+            <li><a href="#footer-infos">• Chaîne TikTok Campagne</a></li>
+          </ul>
+          <div class="footer-slot">📢 Canal WhatsApp officiel des étudiants (lien à insérer)</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 <strong>Coalition UNION · ENASTIC</strong> — Tous droits réservés · Secrétariat Général &
+          Communication</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const members = [
+      {id: "abdelrahim", shortName: "Abdelrahim", level: 1, name: "Abdelrahim", role: "Président", filiere: "Informatique · L3", photo: "images/abdelrahim.jpg", slogan: "Fédérer toutes les énergies pour faire rayonner le Club des Étudiants de l'ENASTIC.", votes: 24, personalUrl: ""},
+      {id: "hissein", shortName: "Hissein", level: 2, name: "Hissein", role: "Vice-Président", filiere: "Informatique · L2", photo: "images/hissein.jpg", slogan: "Assurer la coordination opérationnelle et le suivi rigoureux de chaque projet étudiant.", votes: 19, personalUrl: ""},
+      {id: "barka", shortName: "Barka", level: 2, name: "Barka", role: "Secrétaire Général (SG)", filiere: "Informatique · L3", photo: "images/barka.jpg", slogan: "Une administration étudiante structurée, réactive et au service de chaque salle.", votes: 21, personalUrl: ""},
+      {id: "samir", shortName: "Samir", level: 3, name: "Samir Dahab « Fils d'Or »", role: "Secrétaire Général Adjoint (SGA)", filiere: "Informatique · L2", photo: "images/samir.jpg", slogan: "La plume du bureau, l'oreille des étudiants : « Votre voix, mon engagement. »", votes: 28, personalUrl: "samcampagneSGA-v4.html", featured: true},
+      {id: "nawal", shortName: "Nawal", level: 3, name: "Nawal", role: "Coordinatrice Adjointe", filiere: "MTIC · L2", photo: "images/nawal.jpg", slogan: "Harmoniser nos actions entre filières pour une coalition efficace et proche de vous.", votes: 17, personalUrl: ""},
+      {id: "aisha", shortName: "Aisha", level: 4, name: "Aisha", role: "Chargée des Relations Extérieures", filiere: "MTIC · L2", photo: "images/aisha.jpg", slogan: "Ouvrir le Club des Étudiants aux partenaires, entreprises et opportunités extérieures.", votes: 16, personalUrl: ""},
+      {id: "aziza", shortName: "Aziza", level: 4, name: "Aziza", role: "Chargée des Relations Extérieures Adjointe", filiere: "Informatique · L1", photo: "images/aziza.jpg", slogan: "Porter la voix de la première année et renforcer nos échanges inter-universitaires.", votes: 15, personalUrl: ""},
+      {id: "ayat", shortName: "Ayat", level: 4, name: "Ayat", role: "Communication Titulaire", filiere: "Télécoms · L1", photo: "images/ayat.jpg", slogan: "Informer en temps réel avec clarté, créativité et proximité sur tous nos canaux.", votes: 20, personalUrl: ""},
+      {id: "taye", shortName: "Tayé", level: 4, name: "Tayé", role: "Communication Adjointe", filiere: "Informatique · L2", photo: "images/taye.jpg", slogan: "Valoriser chaque événement et donner de la visibilité aux initiatives étudiantes.", votes: 14, personalUrl: ""},
+      {id: "aysha", shortName: "Aysha", level: 4, name: "Aysha", role: "Trésorière Adjointe", filiere: "Informatique · L2", photo: "images/aysha.jpg", slogan: "Garantir une gestion financière saine, transparente et responsable de chaque franc.", votes: 18, personalUrl: ""}
+    ];
+
+    function renderHeroColumns() {
+      const container = document.getElementById("teamColumns");
+      container.innerHTML = members.map(m => `
+        <div class="team-col">
+          <img src="${m.photo}" alt="${m.shortName}" onerror="this.src='https://via.placeholder.com/160x490/0f172a/1e3a8a?text=${encodeURIComponent(m.shortName)}'">
+          <div class="col-name-label">${m.shortName}</div>
+        </div>
+      `).join("");
+    }
+
+    function initHeroFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const candidatId = params.get("candidat");
+      if (!candidatId) return;
+
+      const found = members.find(m => m.id.toLowerCase() === candidatId.toLowerCase());
+      if (!found) return;
+
+      document.getElementById("heroTag").textContent = `COALITION UNION · CANDIDAT(E) ${found.role.toUpperCase()}`;
+      document.getElementById("heroTitle").textContent = `${found.name} — ${found.role}`;
+      document.getElementById("heroDesc").textContent = `${found.filiere} · « ${found.slogan} »`;
+
+      const floatBtn = document.getElementById("floatingSupportBtn");
+      floatBtn.onclick = () => supportMember(found.id);
+      floatBtn.innerHTML = `❤ Soutenir ${found.shortName}`;
+
+      document.getElementById("heroButtons").innerHTML = `
+        <button class="btn btn-gold" onclick="supportMember('${found.id}')">❤ Soutenir ${found.shortName}</button>
+        ${found.personalUrl ? `<a href="${found.personalUrl}" class="btn btn-blue">🌐 Ouvrir mon site personnel</a>` : `<a href="#organigramme" class="btn btn-blue">Voir les 10 membres</a>`}
+      `;
+    }
+
+    function renderOrganigramme() {
+      [1, 2, 3, 4].forEach(lvl => {
+        const container = document.getElementById(`orgLevel${lvl}`);
+        container.innerHTML = "";
+        members.filter(m => m.level === lvl).forEach(m => {
+          const card = document.createElement("div");
+          card.className = `member-card ${m.featured ? "featured" : ""}`;
+          card.innerHTML = `
+            <img src="${m.photo}" alt="${m.name}" class="member-full-img" onerror="this.src='https://via.placeholder.com/300x400/1e3a8a/fbbf24?text=${encodeURIComponent(m.shortName)}'">
+            <div class="member-overlay">
+              <div class="role-badge">${m.role}</div>
+              <h3>${m.name}</h3>
+              <div class="member-filiere">${m.filiere}</div>
+              <div class="card-actions">
+                <button class="mini-btn" onclick="supportMember('${m.id}')">❤ <span id="vote-${m.id}">${m.votes}</span></button>
+                <a href="?candidat=${m.id}" class="mini-btn">Accueil</a>
+                ${m.personalUrl ? `<a href="${m.personalUrl}" class="mini-btn personal-site">Site Personnel →</a>` : ""}
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      });
+    }
+
+    let coalitionSupported = localStorage.getItem("union_supported") === "true";
+    let coalitionTotal = parseInt(localStorage.getItem("union_total") || "129", 10);
+
+    function updateCoalitionBar() {
+      const pct = Math.min(100, Math.round((coalitionTotal / 200) * 100));
+      document.getElementById("coalitionProgressBar").style.width = pct + "%";
+      document.getElementById("coalitionPctText").textContent = pct + "%";
+      document.getElementById("coalitionCountText").textContent = coalitionTotal;
+    }
+
+    function supportCoalition() {
+      if (!coalitionSupported) {
+        coalitionSupported = true;
+        coalitionTotal++;
+        localStorage.setItem("union_supported", "true");
+        localStorage.setItem("union_total", String(coalitionTotal));
+        updateCoalitionBar();
+        launchFireworks();
+        showToast("🎉 Merci pour votre soutien officiel à la Coalition UNION !");
+      } else {
+        showToast("✨ Votre soutien à la Coalition UNION est déjà enregistré !");
+      }
+    }
+
+    function supportMember(id) {
+      const key = `union_member_${id}`;
+      const member = members.find(m => m.id === id);
+      if (!member) return;
+
+      if (localStorage.getItem(key) !== "true") {
+        localStorage.setItem(key, "true");
+        member.votes++;
+        const el = document.getElementById(`vote-${id}`);
+        if (el) el.textContent = member.votes;
+        launchFireworks();
+        showToast(`❤ Merci ! Votre soutien pour ${member.name} est enregistré.`);
+      } else {
+        showToast(`✅ Vous avez déjà soutenu ${member.name}.`);
+      }
+    }
+
+    function showToast(msg) {
+      const banner = document.getElementById("toastBanner");
+      document.getElementById("toastText").textContent = msg;
+      banner.classList.add("show");
+      setTimeout(() => banner.classList.remove("show"), 5000);
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light-mode");
+      const isLight = document.body.classList.contains("light-mode");
+      document.getElementById("themeBtn").textContent = isLight ? "🌙 Mode Sombre" : "☀️ Mode Clair";
+    }
+
+    let isArabic = false;
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.dir = isArabic ? "rtl" : "ltr";
+      document.getElementById("langBtn").textContent = isArabic ? "🇫🇷 Français" : "🇸🇦 العربية";
+      document.querySelector('[data-i18n="navTitle"]').textContent = isArabic ? "ائتلاف الاتحاد · إيناستيك" : "Coalition UNION · ENASTIC";
+      document.querySelector('[data-i18n="floatSupport"]').textContent = isArabic ? "ادعم الاتحاد" : "Soutenir l'UNION";
+      document.querySelector('[data-i18n="orgTag"]').textContent = isArabic ? "الفريق القيادي" : "Architecture & Leadership";
+      document.querySelector('[data-i18n="orgTitle"]').textContent = isArabic ? "الهيكل التنظيمي لائتلاف الاتحاد" : "Organigramme de la Coalition UNION";
+    }
+
+    function launchFireworks() {
+      const canvas = document.getElementById("fireworksCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      let particles = [];
+      const colors = ["#f59e0b", "#3b82f6", "#06b6d4", "#10b981", "#f43f5e"];
+
+      for (let b = 0; b < 4; b++) {
+        const cx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+        const cy = Math.random() * canvas.height * 0.4 + canvas.height * 0.1;
+        for (let i = 0; i < 45; i++) {
+          const angle = (Math.PI * 2 * i) / 45;
+          const speed = Math.random() * 5 + 2;
+          particles.push({
+            x: cx, y: cy,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          });
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.06;
+          p.alpha -= 0.018;
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        particles = particles.filter(p => p.alpha > 0);
+        if (particles.length > 0) requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    (function initNetwork() {
+      const canvas = document.getElementById("networkCanvas");
+      const ctx = canvas.getContext("2d");
+      let w, h, nodes = [];
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+      for (let i = 0; i < 36; i++) {
+        nodes.push({x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6});
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "#3b82f6";
+        ctx.strokeStyle = "rgba(245, 158, 11, 0.25)";
+        nodes.forEach((n, i) => {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+          ctx.beginPath(); ctx.arc(n.x, n.y, 2.2, 0, Math.PI * 2); ctx.fill();
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = n.x - nodes[j].x, dy = n.y - nodes[j].y;
+            if (Math.hypot(dx, dy) < 130) {
+              ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke();
+            }
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    renderHeroColumns();
+    initHeroFromUrl();
+    renderOrganigramme();
+    updateCoalitionBar();
+  </script>
+</body>
+
+</html>

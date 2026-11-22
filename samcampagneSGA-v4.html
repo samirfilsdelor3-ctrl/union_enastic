@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samir Dahab « Fils d'Or » | Candidat SGA 2026</title>
+  <style>
+    :root {
+      /* Palette Lumineuse, Or & Technologique par défaut */
+      --bg-main: #fcfbf7;
+      --bg-card: #ffffff;
+      --bg-accent-soft: #fef9ec;
+      --text-main: #18181b;
+      --text-muted: #52525b;
+      --primary: #d97706;
+      --primary-light: #f59e0b;
+      --primary-glow: rgba(245, 158, 11, 0.28);
+      --border: #e4e4e7;
+      --badge-bg: #fef3c7;
+      --badge-text: #92400e;
+      --glass-bg: rgba(255, 255, 255, 0.78);
+    }
+
+    /* Palette alternée au clic sur le bouton de soutien */
+    body.theme-supported {
+      --bg-main: #f0f9ff;
+      --bg-card: #ffffff;
+      --bg-accent-soft: #e0f2fe;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --primary: #0284c7;
+      --primary-light: #0ea5e9;
+      --primary-glow: rgba(14, 165, 233, 0.32);
+      --border: #bae6fd;
+      --badge-bg: #dcfce7;
+      --badge-text: #166534;
+      --glass-bg: rgba(240, 249, 255, 0.82);
+    }
+
+    /* Mode Sombre */
+    body.dark-mode {
+      --bg-main: #090d16;
+      --bg-card: #111827;
+      --bg-accent-soft: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --badge-bg: #1e293b;
+      --badge-text: #fbbf24;
+      --glass-bg: rgba(17, 24, 39, 0.78);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.5s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.55;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    /* =====================================================================
+       NOTIFICATION FIXE EN HAUT (5 SECONDES AU PREMIER SOUTIEN)
+       ===================================================================== */
+    .thank-toast {
+      position: fixed;
+      top: -90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
+      transition: top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+    .thank-toast.show { top: 20px; }
+
+    /* =====================================================================
+       EN-TÊTE HAUT (ACCUEIL) QUI BASCULE À GAUCHE EN TRANSPARENCE AU DÉFILEMENT
+       ===================================================================== */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    body.scrolled .top-header {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-100%);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+      gap: 12px;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand span { color: var(--primary); }
+    .top-nav { display: flex; gap: 16px; }
+    .top-nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .top-nav a:hover { color: var(--primary); }
+
+    .controls-group { display: flex; align-items: center; gap: 8px; }
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Barre latérale gauche transparente qui apparaît au défilement */
+    .side-dock {
+      position: fixed;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%) translateX(-130%);
+      z-index: 300;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      opacity: 0.88;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+    }
+    .side-dock:hover { opacity: 1; }
+    body.scrolled .side-dock { transform: translateY(-50%) translateX(0); }
+
+    .dock-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+    .dock-link:hover, .dock-link.active {
+      background: var(--bg-accent-soft);
+      color: var(--primary);
+    }
+    /* Indicateur lumineux sur la section active (ex: Ma Mission) */
+    .dock-link .glow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+    .dock-link.active .glow-dot {
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary), 0 0 18px var(--primary-light);
+    }
+
+    /* Bouton de soutien flottant qui suit le défilement + clignotement */
+    .floating-support {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 350;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #ffffff;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 28px var(--primary-glow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulseBlink 2.2s infinite;
+    }
+    @keyframes pulseBlink {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px var(--primary-glow); }
+      50% { transform: scale(1.04); box-shadow: 0 14px 36px var(--primary); }
+    }
+
+    /* =====================================================================
+       BANNIÈRE PRINCIPALE D'ACCUEIL : 60% GAUCHE (TEXTES & VOTE) / 40% DROITE (PHOTO)
+       ===================================================================== */
+    .hero-banner-split {
+      margin: 24px 0 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      overflow: hidden;
+      display: flex;
+      min-height: 440px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+
+    /* Partie gauche : 60% réservée au poste, nom, éloquence et appel au vote */
+    .hero-left-60 {
+      flex: 0 0 60%;
+      width: 60%;
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--bg-card) 60%, var(--bg-accent-soft) 100%);
+      position: relative;
+      z-index: 2;
+    }
+
+    .eloquence-ticker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+
+    .post-highlight {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 7px 16px;
+      border-radius: 10px;
+      letter-spacing: 0.03em;
+      margin-bottom: 14px;
+      width: fit-content;
+      box-shadow: 0 6px 16px var(--primary-glow);
+    }
+
+    .hero-left-60 h1 {
+      font-size: 2.55rem;
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 12px;
+    }
+
+    .hero-left-60 .slogan-text {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      max-width: 560px;
+    }
+
+    .hero-vote-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .vote-date-pill {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    /* Partie droite : 40% strictement dédiée à votre photo de prise de parole */
+    .hero-right-40 {
+      flex: 0 0 40%;
+      width: 40%;
+      position: relative;
+      background: linear-gradient(160deg, var(--primary), #1e293b);
+      overflow: hidden;
+    }
+
+    .hero-right-40 img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .hero-photo-caption {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* =====================================================================
+       TABLEAU DE BORD EN DESSOUS DE LA BANNIÈRE (PROGRESSION + CERCLE %)
+       ===================================================================== */
+    .dashboard-below-banner {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+    .panel-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.03);
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+    .progress-track {
+      height: 14px;
+      background: var(--bg-accent-soft);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+    .bar-chart {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .bar-item {
+      background: var(--bg-accent-soft);
+      padding: 12px;
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .bar-wrap {
+      height: 54px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .bar-col {
+      width: 28px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 6px 6px 0 0;
+      transition: height 0.5s ease;
+    }
+
+    /* Cercle de pourcentage de soutien */
+    .circle-stat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .circular-progress {
+      width: 136px;
+      height: 136px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0deg, var(--bg-accent-soft) 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      position: relative;
+      transition: background 0.5s ease;
+    }
+    .circular-progress::before {
+      content: "";
+      position: absolute;
+      width: 106px;
+      height: 106px;
+      border-radius: 50%;
+      background: var(--bg-card);
+    }
+    .circular-value {
+      position: relative;
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    /* Compte à rebours avec main animée */
+    .countdown-strip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 26px;
+      margin-bottom: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .pointing-hand {
+      display: inline-block;
+      font-size: 1.5rem;
+      animation: pointMove 1s infinite alternate ease-in-out;
+      margin-right: 6px;
+    }
+    @keyframes pointMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(7px); }
+    }
+    .timer-boxes { display: flex; gap: 10px; }
+    .t-box {
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 12px;
+      text-align: center;
+      min-width: 68px;
+    }
+    .t-box strong { display: block; font-size: 1.35rem; color: var(--primary); }
+    .t-box span { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
+
+    /* =====================================================================
+       BANNIÈRES DE SECTIONS & FORMES VARIÉES
+       ===================================================================== */
+    section { padding: 48px 0; }
+    .section-tag {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    h2 { font-size: 2rem; font-weight: 900; margin: 4px 0 20px; }
+
+    .section-banner {
+      width: 100%;
+      height: 250px;
+      border-radius: 22px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      background: var(--bg-accent-soft);
+      position: relative;
+    }
+    .section-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
+    /* Formes organiques (Arche, Feuille, Pilule) pour Ma Mission */
+    .mission-shapes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 22px;
+    }
+    .shape-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .shape-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .shape-arch { border-radius: 48px 48px 16px 16px; }
+    .shape-leaf { border-radius: 16px 48px 16px 48px; }
+    .shape-pill { border-radius: 36px; }
+
+    /* Diagramme circulaire central (façon PowerPoint) pour les 4 Piliers */
+    .hub-diagram {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+    .hub-center {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+      font-weight: 900;
+      box-shadow: 0 14px 34px var(--primary-glow);
+      border: 6px solid var(--bg-card);
+    }
+    .hub-col { display: flex; flex-direction: column; gap: 18px; }
+    .pillar-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      border-left: 5px solid var(--primary);
+    }
+
+    /* Échelle en escalier pour la Planification sur 12 mois */
+    .ladder-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .ladder-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 24px;
+      width: 85%;
+    }
+    .ladder-item:nth-child(1) { margin-left: 0%; }
+    .ladder-item:nth-child(2) { margin-left: 5%; }
+    .ladder-item:nth-child(3) { margin-left: 10%; }
+    .ladder-item:nth-child(4) { margin-left: 15%; }
+
+    .bilan-box {
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-accent-soft));
+      border: 2px solid var(--primary);
+      border-radius: 22px;
+      padding: 26px;
+    }
+    .bilan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .bilan-cell {
+      background: var(--bg-card);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    /* Parcours & Logos (ENASTIC + GREEN-RICE) + CV */
+    .parcours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+    .logo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .logo-header-img {
+      height: 130px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-header-img img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .logo-body { padding: 20px; }
+
+    /* Galerie de 12 réalisations + Boutique & Portfolio */
+    .gallery-12 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .real-slot {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      height: 165px;
+      position: relative;
+    }
+    .real-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .real-caption {
+      position: absolute;
+      bottom: 0;
+      inset-inline: 0;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-size: 0.76rem;
+      padding: 6px 10px;
+      font-weight: 700;
+    }
+
+    .projects-dual {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+    }
+    .project-showcase {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .project-showcase img { width: 100%; height: 190px; object-fit: cover; }
+    .project-showcase-body { padding: 20px; }
+
+    /* Contact & Réseaux (sans numéro affiché en clair) */
+    .contact-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .social-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .social-btn {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.86rem;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-main);
+      color: var(--text-main);
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+
+    /* Canvas Feux d'artifice */
+    #fireworksCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    footer {
+      text-align: center;
+      padding: 36px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-banner-split { flex-direction: column; }
+      .hero-left-60, .hero-right-40 { flex: 0 0 100%; width: 100%; }
+      .hero-right-40 { height: 340px; }
+      .dashboard-below-banner, .hub-diagram, .contact-panel { grid-template-columns: 1fr; }
+      .hub-center { margin: 0 auto; }
+      .ladder-item { width: 100%; margin-left: 0 !important; }
+      .top-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="fireworksCanvas"></canvas>
+
+  <div class="thank-toast" id="thankToast">
+    🎉 Merci infiniment pour ton soutien à Samir Dahab !
+  </div>
+
+  <button class="floating-support" onclick="handleSupport()">
+    <span>👉</span>
+    <span id="floatBtnLabel" data-fr="Ton soutien compte · Soutenir Sam 🙏✨" data-ar="صوتك يصنع الفرق · ادعم سمير 🙏✨">
+      Ton soutien compte · Soutenir Sam 🙏✨
+    </span>
+  </button>
+
+  <aside class="side-dock" id="sideDock">
+    <a href="#accueil" class="dock-link active" data-target="accueil"><span class="glow-dot"></span> Accueil</a>
+    <a href="#mission" class="dock-link" data-target="mission"><span class="glow-dot"></span> Ma Mission</a>
+    <a href="#piliers" class="dock-link" data-target="piliers"><span class="glow-dot"></span> 4 Piliers</a>
+    <a href="#calendrier" class="dock-link" data-target="calendrier"><span class="glow-dot"></span> Plan & Bilan</a>
+    <a href="#parcours" class="dock-link" data-target="parcours"><span class="glow-dot"></span> Parcours & CV</a>
+    <a href="#realisations" class="dock-link" data-target="realisations"><span class="glow-dot"></span> Réalisations</a>
+    <a href="#contact" class="dock-link" data-target="contact"><span class="glow-dot"></span> Contact</a>
+  </aside>
+
+  <header class="top-header">
+    <div class="container nav-inner">
+      <div class="brand">✒ Samir Dahab <span>« Fils d'Or »</span></div>
+      <nav class="top-nav">
+        <a href="#accueil">Accueil</a>
+        <a href="#mission">Ma Mission</a>
+        <a href="#piliers">4 Piliers</a>
+        <a href="#calendrier">Calendrier & Bilan</a>
+        <a href="#parcours">Parcours</a>
+        <a href="#realisations">Réalisations</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="controls-group">
+        <button class="icon-btn" onclick="toggleLang()" id="langBtn">🌍 AR / FR</button>
+        <button class="icon-btn" onclick="toggleDark()" id="darkBtn">🌙 Sombre</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="accueil">
+
+    <div class="hero-banner-split">
+      <div class="hero-left-60">
+        <div class="eloquence-ticker" id="eloquenceQuote">
+          🎙️ « Les promesses s'envolent, les archives restent : choisissez la plume ! »
+        </div>
+
+        <div class="post-highlight" data-fr="🗳 CANDIDAT OFFICIEL · SECRÉTAIRE GÉNÉRAL ADJOINT (SGA)" data-ar="🗳 مرشح رسمي · الأمين العام المساعد (SGA)">
+          🗳 CANDIDAT OFFICIEL · SECRÉTAIRE GÉNÉRAL ADJOINT (SGA)
+        </div>
+
+        <h1>
+          Samir Dahab <span style="color: var(--primary);">« Fils d'Or »</span>
+        </h1>
+
+        <p class="slogan-text" data-fr="Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et humain qui informe, écoute et archive chaque décision. Votre voix, mon engagement." data-ar="نادي الطلاب · إيناستيك: قلم المكتب وأذن الطلاب. سأكون الرابط التكنولوجي والإنساني الذي يبلغ ويستمع ويوثق كل قرار.">
+          Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et humain qui informe, écoute et archive chaque décision. <strong>« Votre voix, mon engagement. »</strong>
+        </p>
+
+        <div class="hero-vote-strip">
+          <button class="btn-action" onclick="handleSupport()">
+            ❤ Soutenir ma candidature SGA
+          </button>
+          <span class="vote-date-pill">📅 Vote officiel : 29 Novembre 2026</span>
+        </div>
+      </div>
+
+      <div class="hero-right-40">
+        <img src="images/banniere-principale.jpg" alt="Samir Dahab Candidat SGA prise de parole" />
+        <div class="hero-photo-caption">
+          ✒ Samir Dahab · Candidat SGA 2026
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-below-banner">
+      <div class="panel-box">
+        <div class="progress-header">
+          <span data-fr="Progression de la mobilisation étudiante" data-ar="تقدم التعبئة الطلابية">Progression de la mobilisation étudiante</span>
+          <span id="progressText">0% (0 / 100 soutiens)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">
+          Répartition dynamique par licence (Initialisée à 0 · Équilibrée au vote)
+        </div>
+        <div class="bar-chart">
+          <div class="bar-item">
+            <div class="bar-wrap"><div class="bar-col" id="barL1"></div></div>
+            <strong>Licence 1 : <span id="valL1">0</span></strong>
+          </div>
+          <div class="bar-item">
+            <div class="bar-wrap"><div class="bar-col" id="barL2"></div></div>
+            <strong>Licence 2 : <span id="valL2">0</span></strong>
+          </div>
+          <div class="bar-item">
+            <div class="bar-wrap"><div class="bar-col" id="barL3"></div></div>
+            <strong>Licence 3 : <span id="valL3">0</span></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-box circle-stat-card">
+        <div class="circular-progress" id="circleProgress">
+          <span class="circular-value" id="circlePercent">0%</span>
+        </div>
+        <strong>Taux de soutien en ligne</strong>
+        <small style="color: var(--text-muted);" id="totalVotesLabel">0 soutien enregistré</small>
+      </div>
+    </div>
+
+    <div class="countdown-strip">
+      <div>
+        <strong style="font-size: 1.05rem;">
+          <span class="pointing-hand">👉</span>
+          <span data-fr="Nous tendons vers la fin de la campagne dans :" data-ar="نتجه نحو نهاية الحملة الانتخابية خلال:">
+            Nous tendons vers la fin de la campagne dans :
+          </span>
+        </strong>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Le sablier se vide, mais l'espoir se remplit · Vote sur papier le 29 novembre 2026
+        </p>
+      </div>
+      <div class="timer-boxes">
+        <div class="t-box"><strong id="d">07</strong><span>Jours</span></div>
+        <div class="t-box"><strong id="h">18</strong><span>Heures</span></div>
+        <div class="t-box"><strong id="m">30</strong><span>Min</span></div>
+        <div class="t-box"><strong id="s">00</strong><span>Sec</span></div>
+      </div>
+    </div>
+
+    <section id="mission">
+      <div class="section-tag">Le rôle du Secrétaire Général Adjoint</div>
+      <h2>Ma Mission au service des étudiants</h2>
+
+      <div class="section-banner">
+        <img src="images/banniere-mission.jpg" alt="Bannière Ma Mission Samir Dahab" />
+      </div>
+
+      <div class="mission-shapes">
+        <div class="shape-card shape-arch">
+          <h3>📢 Informer avec clarté</h3>
+          <p style="color: var(--text-muted); margin-top: 8px;">
+            Des annonces visuelles, structurées et diffusées à temps grâce à mon expertise en communication et audiovisuel.
+          </p>
+        </div>
+        <div class="shape-card shape-leaf">
+          <h3>👂 Écouter chaque salle</h3>
+          <p style="color: var(--text-muted); margin-top: 8px;">
+            Aucune salle n'est oubliée : vos idées et préoccupations remontent directement sur la table du bureau exécutif.
+          </p>
+        </div>
+        <div class="shape-card shape-pill">
+          <h3>🗂 Archiver & Documenter</h3>
+          <p style="color: var(--text-muted); margin-top: 8px;">
+            Tous les procès-verbaux et décisions sont numérisés, classés et consultables par chaque étudiant.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="piliers">
+      <div class="section-tag">Engagements concrets</div>
+      <h2>Mes 4 Piliers d'Action</h2>
+
+      <div class="section-banner">
+        <img src="images/banniere-promesses.jpg" alt="Bannière Mes 4 Piliers" />
+      </div>
+
+      <div class="hub-diagram">
+        <div class="hub-col">
+          <div class="pillar-node">
+            <strong>01 · Pilier Transparence</strong>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Publication numérique des comptes rendus du bureau sous 48 h.</p>
+          </div>
+          <div class="pillar-node">
+            <strong>02 · Pilier Écoute Active</strong>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Boîte à idées physique et digitale avec réponse garantie sous 7 jours.</p>
+          </div>
+        </div>
+
+        <div class="hub-center">
+          <span style="font-size: 1.6rem;">🎯</span>
+          <span>OBJECTIF UNIQUE</span>
+          <small style="font-weight: 600; opacity: 0.9;">Un Secrétariat Moderne & Proche</small>
+        </div>
+
+        <div class="hub-col">
+          <div class="pillar-node">
+            <strong>03 · Pilier Proximité</strong>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Un référent désigné par salle relié directement au Secrétariat Général.</p>
+          </div>
+          <div class="pillar-node">
+            <strong>04 · Pilier Redevabilité</strong>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Tableau public « Promesses tenues » mis à jour en continu.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calendrier">
+      <div class="section-tag">Planification & Transparence</div>
+      <h2>Feuille de route sur 12 mois & Bilan dès mon élection</h2>
+
+      <div class="ladder-steps">
+        <div class="ladder-item">
+          <strong>Étape 1 · Mois 1 à 3 : Installation & Réseau de salles</strong>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Mise en place des référents L1-L3, ouverture des archives numériques et de la boîte à idées.</p>
+        </div>
+        <div class="ladder-item">
+          <strong>Étape 2 · Mois 4 à 6 : Premier Bilan & Dynamique culturelle</strong>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Publication trimestrielle des comptes rendus et appui aux tournois d'éloquence et projets étudiants.</p>
+        </div>
+        <div class="ladder-item">
+          <strong>Étape 3 · Mois 7 à 9 : Innovation & Suivi académique</strong>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Valorisation des talents numériques et suivi des doléances auprès de l'administration.</p>
+        </div>
+        <div class="ladder-item">
+          <strong>Étape 4 · Mois 10 à 12 : Bilan Général & Passation propre</strong>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Présentation publique du rapport annuel complet et transmission d'une base documentaire intacte.</p>
+        </div>
+      </div>
+
+      <div class="bilan-box">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: center;">
+          <div>
+            <span class="post-highlight" style="margin-bottom: 4px;">📊 ESPACE BILAN OFFICIEL (ACTIVÉ DÈS MON ÉLECTION)</span>
+            <h3>Tableau de bord de redevabilité du SGA</h3>
+          </div>
+          <span style="font-weight: 800; color: var(--primary);">Statut : Prêt pour le 29 nov. 2026</span>
+        </div>
+        <div class="bilan-grid">
+          <div class="bilan-cell"><span>Comptes rendus publiés</span><br><strong>0 / Prêt dès J+1</strong></div>
+          <div class="bilan-cell"><span>Propositions traitées</span><br><strong>Ouvert aux idées</strong></div>
+          <div class="bilan-cell"><span>Réunions avec délégués</span><br><strong>1 fois / mois</strong></div>
+          <div class="bilan-cell"><span>Exécution du programme</span><br><strong>Suivi public 100%</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="parcours">
+      <div class="section-tag">Expérience & Leadership</div>
+      <h2>Mon Parcours & Mon CV Officiel</h2>
+
+      <div class="section-banner">
+        <img src="images/banniere-parcours.jpg" alt="Bannière Parcours Samir Dahab" />
+      </div>
+
+      <div class="parcours-grid">
+        <div class="logo-card">
+          <div class="logo-header-img">
+            <img src="images/logo-enastic.png" alt="Logo ENASTIC" />
+          </div>
+          <div class="logo-body">
+            <h3>ENASTIC · Licence 2 Informatique</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+              Secrétaire provisoire (je tiens déjà la plume) et Conseiller de la salle Info 2.
+            </p>
+          </div>
+        </div>
+
+        <div class="logo-card">
+          <div class="logo-header-img">
+            <img src="images/logo-greenrice.png" alt="Logo GREEN-RICE" />
+          </div>
+          <div class="logo-body">
+            <h3>GREEN-RICE & Éloquence</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+              Chargé de l'audiovisuel et représentant de ma salle au concours d'éloquence inter-salles.
+            </p>
+          </div>
+        </div>
+
+        <div class="logo-card">
+          <div class="logo-header-img" style="background: var(--bg-accent-soft); font-size: 2.5rem;">
+            📄
+          </div>
+          <div class="logo-body">
+            <h3>Curriculum Vitae Complet</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 6px 0 14px;">
+              Consultez l'ensemble de mes compétences techniques, associatives et académiques.
+            </p>
+            <a href="documents/CV-Samir-Dahab-SGA.pdf" download="CV-Samir-Dahab-SGA.pdf" class="btn-action">
+              ⬇️ Télécharger mon CV (PDF)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="realisations">
+      <div class="section-tag">Preuves & Créations</div>
+      <h2>Mes Réalisations & Projets Numériques</h2>
+
+      <div class="gallery-12">
+        <div class="real-slot"><img src="images/realisation-1.jpg" alt="Réalisation 1"><div class="real-caption">01 · Concours d'Éloquence</div></div>
+        <div class="real-slot"><img src="images/realisation-2.jpg" alt="Réalisation 2"><div class="real-caption">02 · Secrétariat Provisoire</div></div>
+        <div class="real-slot"><img src="images/realisation-3.jpg" alt="Réalisation 3"><div class="real-caption">03 · Audiovisuel GREEN-RICE</div></div>
+        <div class="real-slot"><img src="images/realisation-4.jpg" alt="Réalisation 4"><div class="real-caption">04 · Affiche Événementielle</div></div>
+        <div class="real-slot"><img src="images/realisation-5.jpg" alt="Réalisation 5"><div class="real-caption">05 · Organisation Salle Info 2</div></div>
+        <div class="real-slot"><img src="images/realisation-6.jpg" alt="Réalisation 6"><div class="real-caption">06 · Prise de Parole Publique</div></div>
+        <div class="real-slot"><img src="images/realisation-7.jpg" alt="Réalisation 7"><div class="real-caption">07 · Design Graphique</div></div>
+        <div class="real-slot"><img src="images/realisation-8.jpg" alt="Réalisation 8"><div class="real-caption">08 · Projet Web Étudiant</div></div>
+        <div class="real-slot"><img src="images/realisation-9.jpg" alt="Réalisation 9"><div class="real-caption">09 · Couverture Médiatique</div></div>
+        <div class="real-slot"><img src="images/realisation-10.jpg" alt="Réalisation 10"><div class="real-caption">10 · Animation Conférence</div></div>
+        <div class="real-slot"><img src="images/realisation-11.jpg" alt="Réalisation 11"><div class="real-caption">11 · Archive Numérique</div></div>
+        <div class="real-slot"><img src="images/realisation-12.jpg" alt="Réalisation 12"><div class="real-caption">12 · Action Associative</div></div>
+      </div>
+
+      <div class="projects-dual">
+        <div class="project-showcase">
+          <img src="images/apercu-boutique.jpg" alt="Aperçu Boutique en ligne" />
+          <div class="project-showcase-body">
+            <h3>🛍 Ma Boutique E-Commerce Mobile</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 8px 0 14px;">
+              Plateforme de vente moderne avec catalogue interactif et commande rapide via WhatsApp.
+            </p>
+            <a href="https://votre-lien-boutique.com" target="_blank" class="btn-action">
+              Consulter la boutique & les ventes ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="project-showcase">
+          <img src="images/apercu-portfolio.jpg" alt="Aperçu Site Personnel" />
+          <div class="project-showcase-body">
+            <h3>💻 Mon Site Web Personnel & Portfolio</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 8px 0 14px;">
+              Découvrez mes développements web, créations graphiques et projets informatiques.
+            </p>
+            <a href="https://votre-site-personnel.com" target="_blank" class="btn-action">
+              Visiter mon site personnel ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-panel">
+        <div>
+          <div class="section-tag">Échange direct</div>
+          <h2>Contacter Samir Dahab</h2>
+          <p style="color: var(--text-muted); margin: 10px 0 18px;">
+            Une question sur mon programme SGA ou une suggestion pour le club ? Écrivez-moi directement via WhatsApp ou rejoignez mes réseaux officiels.
+          </p>
+
+          <p style="font-weight: 700; margin-bottom: 14px;">
+            ✉️ Email officiel : <a href="mailto:samirfilsdelor3@gmail.com" style="color: var(--primary); text-decoration: none;">samirfilsdelor3@gmail.com</a>
+          </p>
+
+          <div class="social-row">
+            <a href="https://wa.me/23566250646" target="_blank" class="social-btn">💬 Consulter sur WhatsApp</a>
+            <a href="https://facebook.com" target="_blank" class="social-btn">📘 Facebook</a>
+            <a href="https://instagram.com" target="_blank" class="social-btn">📸 Instagram</a>
+            <a href="https://tiktok.com" target="_blank" class="social-btn">🎵 TikTok</a>
+          </div>
+        </div>
+
+        <form onsubmit="sendWhatsAppMsg(event)">
+          <input type="text" id="studentName" placeholder="Ton nom ou prénom" required />
+          <select id="studentLevel">
+            <option value="Non précisé">Choisir ta licence (optionnel)</option>
+            <option value="Licence 1">Licence 1</option>
+            <option value="Licence 2">Licence 2</option>
+            <option value="Licence 3">Licence 3</option>
+          </select>
+          <textarea id="studentMsg" rows="3" placeholder="Ton message, ton idée ou ton soutien..." required></textarea>
+          <button type="submit" class="btn-action" style="width: 100%; justify-content: center;">
+            Envoyer directement via WhatsApp ↗
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>« Votre voix, mon engagement. »</strong></p>
+    <p>© 2026 Samir Dahab « Fils d'Or » · Candidat Secrétaire Général Adjoint (SGA)</p>
+  </footer>
+
+  <script>
+    // 1. Défilement : bascule l'en-tête à gauche en transparence + allume la section active
+    const sections = document.querySelectorAll('main[id], section[id]');
+    const dockLinks = document.querySelectorAll('.dock-link');
+
+    window.addEventListener('scroll', () => {
+      document.body.classList.toggle('scrolled', window.scrollY > 140);
+
+      let current = 'accueil';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 220;
+        if (window.scrollY >= top) current = sec.getAttribute('id');
+      });
+      dockLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-target') === current);
+      });
+    });
+
+    // 2. Citations d'éloquence rotatives dans la bannière d'accueil
+    const quotes = [
+      "🎙️ « Les promesses s'envolent, les archives restent : choisissez la plume ! »",
+      "⚖️ « Un bon Secrétaire Général Adjoint ne dort pas pendant les réunions, il écrit l'histoire ! »",
+      "✨ « Voter Samir Fils d'Or, c'est offrir un GPS numérique à chaque doléance étudiante. »"
+    ];
+    let qIdx = 0;
+    setInterval(() => {
+      qIdx = (qIdx + 1) % quotes.length;
+      document.getElementById('eloquenceQuote').textContent = quotes[qIdx];
+    }, 5500);
+
+    // 3. Soutien unique anti-triche + Feux d'artifice + Audio + Notification 5s + Changement couleur
+    let hasSupported = localStorage.getItem('sam_sga_voted') === 'true';
+    let votes = hasSupported ? 1 : 0;
+    let l1 = 0, l2 = 0, l3 = 0;
+
+    if (hasSupported) {
+      l2 = 1;
+      updateDashboard();
+    }
+
+    function handleSupport() {
+      // Change toujours la couleur du site au clic
+      document.body.classList.toggle('theme-supported');
+
+      // Le compteur n'augmente qu'une seule fois par personne
+      if (!hasSupported) {
+        hasSupported = true;
+        localStorage.setItem('sam_sga_voted', 'true');
+        votes = 1;
+        // Équilibrage automatique si la licence n'a pas été choisie
+        const sel = document.getElementById('studentLevel').value;
+        if (sel === 'Licence 1') l1++;
+        else if (sel === 'Licence 3') l3++;
+        else l2++;
+
+        updateDashboard();
+        launchFireworks();
+        speakThankYou();
+        showToast5Seconds();
+      }
+    }
+
+    function updateDashboard() {
+      const pct = Math.min(100, Math.round((votes / 100) * 100));
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${pct}% (${votes} / 100 soutiens)`;
+      document.getElementById('circlePercent').textContent = pct + '%';
+      document.getElementById('totalVotesLabel').textContent = `${votes} soutien enregistré`;
+      document.getElementById('circleProgress').style.background =
+        `conic-gradient(var(--primary) ${pct * 3.6}deg, var(--bg-accent-soft) 0deg)`;
+
+      document.getElementById('valL1').textContent = l1;
+      document.getElementById('valL2').textContent = l2;
+      document.getElementById('valL3').textContent = l3;
+      document.getElementById('barL1').style.height = Math.max(4, l1 * 18) + 'px';
+      document.getElementById('barL2').style.height = Math.max(4, l2 * 18) + 'px';
+      document.getElementById('barL3').style.height = Math.max(4, l3 * 18) + 'px';
+    }
+
+    function showToast5Seconds() {
+      const toast = document.getElementById('thankToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    function speakThankYou() {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance("Merci infiniment pour ton soutien à Samir Dahab !");
+        msg.lang = 'fr-FR';
+        window.speechSynthesis.speak(msg);
+      }
+    }
+
+    // Feux d'artifice festifs
+    function launchFireworks() {
+      const canvas = document.getElementById('fireworksCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const colors = ['#f59e0b', '#0ea5e9', '#10b981', '#ef4444', '#a855f7'];
+
+      for (let b = 0; b < 5; b++) {
+        const cx = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+        const cy = Math.random() * canvas.height * 0.5 + 80;
+        for (let i = 0; i < 45; i++) {
+          const angle = (Math.PI * 2 * i) / 45;
+          const speed = Math.random() * 5 + 2;
+          particles.push({
+            x: cx, y: cy,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          });
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          if (p.alpha > 0) {
+            alive = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.08;
+            p.alpha -= 0.016;
+            ctx.globalAlpha = Math.max(0, p.alpha);
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+        if (alive) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
+    }
+
+    // 4. Mode Sombre & Bascule Français / Arabe (RTL)
+    function toggleDark() {
+      document.body.classList.toggle('dark-mode');
+      document.getElementById('darkBtn').textContent =
+        document.body.classList.contains('dark-mode') ? '☀️ Clair' : '🌙 Sombre';
+    }
+
+    let isArabic = false;
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+      document.documentElement.lang = isArabic ? 'ar' : 'fr';
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.textContent = isArabic ? el.getAttribute('data-ar') : el.getAttribute('data-fr');
+      });
+    }
+
+    // 5. Envoi WhatsApp masqué (sans afficher le numéro sur la page)
+    function sendWhatsAppMsg(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentName').value;
+      const lvl = document.getElementById('studentLevel').value;
+      const txt = document.getElementById('studentMsg').value;
+      const full = encodeURIComponent(`Bonjour Samir (Candidat SGA), je suis ${name} (${lvl}). Message : ${txt}`);
+      window.open(`https://wa.me/23566250646?text=${full}`, '_blank');
+    }
+
+    // 6. Compte à rebours jusqu'au 29 novembre 2026
+    const voteDay = new Date("November 29, 2026 08:00:00").getTime();
+    setInterval(() => {
+      const diff = voteDay - Date.now();
+      if (diff > 0) {
+        document.getElementById('d').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+        document.getElementById('h').textContent = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
+        document.getElementById('m').textContent = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
+        document.getElementById('s').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
