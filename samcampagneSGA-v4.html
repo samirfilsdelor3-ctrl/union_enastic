@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,8 +51,16 @@
       --glass-bg: rgba(17, 24, 39, 0.78);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-main);
@@ -72,7 +81,11 @@
       pointer-events: none;
     }
 
-    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
     /* =====================================================================
        NOTIFICATION FIXE EN HAUT (5 SECONDES AU PREMIER SOUTIEN)
@@ -96,7 +109,10 @@
       gap: 10px;
       white-space: nowrap;
     }
-    .thank-toast.show { top: 20px; }
+
+    .thank-toast.show {
+      top: 20px;
+    }
 
     /* =====================================================================
        EN-TÊTE HAUT (ACCUEIL) QUI BASCULE À GAUCHE EN TRANSPARENCE AU DÉFILEMENT
@@ -110,11 +126,13 @@
       border-bottom: 1px solid var(--border);
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
+
     body.scrolled .top-header {
       opacity: 0;
       pointer-events: none;
       transform: translateY(-100%);
     }
+
     .nav-inner {
       display: flex;
       justify-content: space-between;
@@ -122,6 +140,7 @@
       height: 72px;
       gap: 12px;
     }
+
     .brand {
       font-weight: 800;
       font-size: 1.15rem;
@@ -129,8 +148,16 @@
       align-items: center;
       gap: 8px;
     }
-    .brand span { color: var(--primary); }
-    .top-nav { display: flex; gap: 16px; }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 16px;
+    }
+
     .top-nav a {
       text-decoration: none;
       color: var(--text-muted);
@@ -138,9 +165,17 @@
       font-size: 0.88rem;
       transition: color 0.2s;
     }
-    .top-nav a:hover { color: var(--primary); }
 
-    .controls-group { display: flex; align-items: center; gap: 8px; }
+    .top-nav a:hover {
+      color: var(--primary);
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .icon-btn {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -152,7 +187,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
 
     /* Barre latérale gauche transparente qui apparaît au défilement */
     .side-dock {
@@ -169,12 +208,18 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
       opacity: 0.88;
       transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
     }
-    .side-dock:hover { opacity: 1; }
-    body.scrolled .side-dock { transform: translateY(-50%) translateX(0); }
+
+    .side-dock:hover {
+      opacity: 1;
+    }
+
+    body.scrolled .side-dock {
+      transform: translateY(-50%) translateX(0);
+    }
 
     .dock-link {
       position: relative;
@@ -189,10 +234,13 @@
       font-weight: 700;
       transition: all 0.25s ease;
     }
-    .dock-link:hover, .dock-link.active {
+
+    .dock-link:hover,
+    .dock-link.active {
       background: var(--bg-accent-soft);
       color: var(--primary);
     }
+
     /* Indicateur lumineux sur la section active (ex: Ma Mission) */
     .dock-link .glow-dot {
       width: 8px;
@@ -201,6 +249,7 @@
       background: transparent;
       transition: all 0.3s ease;
     }
+
     .dock-link.active .glow-dot {
       background: var(--primary);
       box-shadow: 0 0 10px var(--primary), 0 0 18px var(--primary-light);
@@ -226,9 +275,19 @@
       gap: 10px;
       animation: pulseBlink 2.2s infinite;
     }
+
     @keyframes pulseBlink {
-      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px var(--primary-glow); }
-      50% { transform: scale(1.04); box-shadow: 0 14px 36px var(--primary); }
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px var(--primary-glow);
+      }
+
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 14px 36px var(--primary);
+      }
     }
 
     /* =====================================================================
@@ -362,13 +421,15 @@
       gap: 24px;
       margin-bottom: 36px;
     }
+
     .panel-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 22px;
       padding: 24px;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.03);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.03);
     }
+
     .progress-header {
       display: flex;
       justify-content: space-between;
@@ -376,6 +437,7 @@
       font-size: 0.92rem;
       margin-bottom: 8px;
     }
+
     .progress-track {
       height: 14px;
       background: var(--bg-accent-soft);
@@ -384,6 +446,7 @@
       border: 1px solid var(--border);
       margin-bottom: 20px;
     }
+
     .progress-fill {
       height: 100%;
       width: 0%;
@@ -391,11 +454,13 @@
       border-radius: 999px;
       transition: width 0.6s ease;
     }
+
     .bar-chart {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
+
     .bar-item {
       background: var(--bg-accent-soft);
       padding: 12px;
@@ -403,6 +468,7 @@
       text-align: center;
       border: 1px solid var(--border);
     }
+
     .bar-wrap {
       height: 54px;
       display: flex;
@@ -410,6 +476,7 @@
       justify-content: center;
       margin-bottom: 6px;
     }
+
     .bar-col {
       width: 28px;
       height: 4px;
@@ -426,6 +493,7 @@
       justify-content: center;
       text-align: center;
     }
+
     .circular-progress {
       width: 136px;
       height: 136px;
@@ -438,6 +506,7 @@
       position: relative;
       transition: background 0.5s ease;
     }
+
     .circular-progress::before {
       content: "";
       position: absolute;
@@ -446,6 +515,7 @@
       border-radius: 50%;
       background: var(--bg-card);
     }
+
     .circular-value {
       position: relative;
       font-size: 1.65rem;
@@ -466,17 +536,29 @@
       align-items: center;
       gap: 16px;
     }
+
     .pointing-hand {
       display: inline-block;
       font-size: 1.5rem;
       animation: pointMove 1s infinite alternate ease-in-out;
       margin-right: 6px;
     }
+
     @keyframes pointMove {
-      from { transform: translateX(0); }
-      to { transform: translateX(7px); }
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(7px);
+      }
     }
-    .timer-boxes { display: flex; gap: 10px; }
+
+    .timer-boxes {
+      display: flex;
+      gap: 10px;
+    }
+
     .t-box {
       background: var(--bg-accent-soft);
       border: 1px solid var(--border);
@@ -485,13 +567,26 @@
       text-align: center;
       min-width: 68px;
     }
-    .t-box strong { display: block; font-size: 1.35rem; color: var(--primary); }
-    .t-box span { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
+
+    .t-box strong {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--primary);
+    }
+
+    .t-box span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
 
     /* =====================================================================
        BANNIÈRES DE SECTIONS & FORMES VARIÉES
        ===================================================================== */
-    section { padding: 48px 0; }
+    section {
+      padding: 48px 0;
+    }
+
     .section-tag {
       color: var(--primary);
       font-weight: 800;
@@ -499,7 +594,12 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
-    h2 { font-size: 2rem; font-weight: 900; margin: 4px 0 20px; }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 4px 0 20px;
+    }
 
     .section-banner {
       width: 100%;
@@ -511,6 +611,7 @@
       background: var(--bg-accent-soft);
       position: relative;
     }
+
     .section-banner img {
       width: 100%;
       height: 100%;
@@ -524,16 +625,30 @@
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 22px;
     }
+
     .shape-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       padding: 28px 24px;
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
-    .shape-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-    .shape-arch { border-radius: 48px 48px 16px 16px; }
-    .shape-leaf { border-radius: 16px 48px 16px 48px; }
-    .shape-pill { border-radius: 36px; }
+
+    .shape-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .shape-arch {
+      border-radius: 48px 48px 16px 16px;
+    }
+
+    .shape-leaf {
+      border-radius: 16px 48px 16px 48px;
+    }
+
+    .shape-pill {
+      border-radius: 36px;
+    }
 
     /* Diagramme circulaire central (façon PowerPoint) pour les 4 Piliers */
     .hub-diagram {
@@ -542,6 +657,7 @@
       align-items: center;
       gap: 24px;
     }
+
     .hub-center {
       width: 190px;
       height: 190px;
@@ -558,7 +674,13 @@
       box-shadow: 0 14px 34px var(--primary-glow);
       border: 6px solid var(--bg-card);
     }
-    .hub-col { display: flex; flex-direction: column; gap: 18px; }
+
+    .hub-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
     .pillar-node {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -574,6 +696,7 @@
       gap: 16px;
       margin-bottom: 30px;
     }
+
     .ladder-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -581,10 +704,22 @@
       padding: 20px 24px;
       width: 85%;
     }
-    .ladder-item:nth-child(1) { margin-left: 0%; }
-    .ladder-item:nth-child(2) { margin-left: 5%; }
-    .ladder-item:nth-child(3) { margin-left: 10%; }
-    .ladder-item:nth-child(4) { margin-left: 15%; }
+
+    .ladder-item:nth-child(1) {
+      margin-left: 0%;
+    }
+
+    .ladder-item:nth-child(2) {
+      margin-left: 5%;
+    }
+
+    .ladder-item:nth-child(3) {
+      margin-left: 10%;
+    }
+
+    .ladder-item:nth-child(4) {
+      margin-left: 15%;
+    }
 
     .bilan-box {
       background: linear-gradient(135deg, var(--bg-card), var(--bg-accent-soft));
@@ -592,12 +727,14 @@
       border-radius: 22px;
       padding: 26px;
     }
+
     .bilan-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
       margin-top: 16px;
     }
+
     .bilan-cell {
       background: var(--bg-card);
       padding: 14px;
@@ -611,12 +748,14 @@
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 20px;
     }
+
     .logo-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
     }
+
     .logo-header-img {
       height: 130px;
       background: #ffffff;
@@ -626,12 +765,16 @@
       padding: 14px;
       border-bottom: 1px solid var(--border);
     }
+
     .logo-header-img img {
       max-height: 100%;
       max-width: 100%;
       object-fit: contain;
     }
-    .logo-body { padding: 20px; }
+
+    .logo-body {
+      padding: 20px;
+    }
 
     /* Galerie de 12 réalisations + Boutique & Portfolio */
     .gallery-12 {
@@ -640,6 +783,7 @@
       gap: 14px;
       margin-bottom: 28px;
     }
+
     .real-slot {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -648,7 +792,13 @@
       height: 165px;
       position: relative;
     }
-    .real-slot img { width: 100%; height: 100%; object-fit: cover; }
+
+    .real-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .real-caption {
       position: absolute;
       bottom: 0;
@@ -665,14 +815,23 @@
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 22px;
     }
+
     .project-showcase {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
     }
-    .project-showcase img { width: 100%; height: 190px; object-fit: cover; }
-    .project-showcase-body { padding: 20px; }
+
+    .project-showcase img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .project-showcase-body {
+      padding: 20px;
+    }
 
     /* Contact & Réseaux (sans numéro affiché en clair) */
     .contact-panel {
@@ -684,7 +843,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 28px;
     }
-    .social-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
     .social-btn {
       padding: 10px 16px;
       border-radius: 12px;
@@ -696,7 +862,12 @@
       font-size: 0.86rem;
       transition: all 0.2s;
     }
-    .social-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .social-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
 
     .btn-action {
       display: inline-flex;
@@ -713,7 +884,9 @@
       font-size: 0.92rem;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 12px 14px;
       border-radius: 12px;
@@ -741,16 +914,42 @@
     }
 
     @media (max-width: 900px) {
-      .hero-banner-split { flex-direction: column; }
-      .hero-left-60, .hero-right-40 { flex: 0 0 100%; width: 100%; }
-      .hero-right-40 { height: 340px; }
-      .dashboard-below-banner, .hub-diagram, .contact-panel { grid-template-columns: 1fr; }
-      .hub-center { margin: 0 auto; }
-      .ladder-item { width: 100%; margin-left: 0 !important; }
-      .top-nav { display: none; }
+      .hero-banner-split {
+        flex-direction: column;
+      }
+
+      .hero-left-60,
+      .hero-right-40 {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+
+      .hero-right-40 {
+        height: 340px;
+      }
+
+      .dashboard-below-banner,
+      .hub-diagram,
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .hub-center {
+        margin: 0 auto;
+      }
+
+      .ladder-item {
+        width: 100%;
+        margin-left: 0 !important;
+      }
+
+      .top-nav {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <canvas id="fireworksCanvas"></canvas>
@@ -803,7 +1002,8 @@
           🎙️ « Les promesses s'envolent, les archives restent : choisissez la plume ! »
         </div>
 
-        <div class="post-highlight" data-fr="🗳 CANDIDAT OFFICIEL · SECRÉTAIRE GÉNÉRAL ADJOINT (SGA)" data-ar="🗳 مرشح رسمي · الأمين العام المساعد (SGA)">
+        <div class="post-highlight" data-fr="🗳 CANDIDAT OFFICIEL · SECRÉTAIRE GÉNÉRAL ADJOINT (SGA)"
+          data-ar="🗳 مرشح رسمي · الأمين العام المساعد (SGA)">
           🗳 CANDIDAT OFFICIEL · SECRÉTAIRE GÉNÉRAL ADJOINT (SGA)
         </div>
 
@@ -811,8 +1011,11 @@
           Samir Dahab <span style="color: var(--primary);">« Fils d'Or »</span>
         </h1>
 
-        <p class="slogan-text" data-fr="Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et humain qui informe, écoute et archive chaque décision. Votre voix, mon engagement." data-ar="نادي الطلاب · إيناستيك: قلم المكتب وأذن الطلاب. سأكون الرابط التكنولوجي والإنساني الذي يبلغ ويستمع ويوثق كل قرار.">
-          Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et humain qui informe, écoute et archive chaque décision. <strong>« Votre voix, mon engagement. »</strong>
+        <p class="slogan-text"
+          data-fr="Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et humain qui informe, écoute et archive chaque décision. Votre voix, mon engagement."
+          data-ar="نادي الطلاب · إيناستيك: قلم المكتب وأذن الطلاب. سأكون الرابط التكنولوجي والإنساني الذي يبلغ ويستمع ويوثق كل قرار.">
+          Club des Étudiants · ENASTIC : La plume du bureau, l'oreille des étudiants. Je serai le lien technologique et
+          humain qui informe, écoute et archive chaque décision. <strong>« Votre voix, mon engagement. »</strong>
         </p>
 
         <div class="hero-vote-strip">
@@ -824,7 +1027,7 @@
       </div>
 
       <div class="hero-right-40">
-        <img src="images/banniere-principale.jpg" alt="Samir Dahab Candidat SGA prise de parole" />
+        <img src="images/sam.jpg" alt="Samir Dahab Candidat SGA prise de parole" />
         <div class="hero-photo-caption">
           ✒ Samir Dahab · Candidat SGA 2026
         </div>
@@ -834,27 +1037,35 @@
     <div class="dashboard-below-banner">
       <div class="panel-box">
         <div class="progress-header">
-          <span data-fr="Progression de la mobilisation étudiante" data-ar="تقدم التعبئة الطلابية">Progression de la mobilisation étudiante</span>
+          <span data-fr="Progression de la mobilisation étudiante" data-ar="تقدم التعبئة الطلابية">Progression de la
+            mobilisation étudiante</span>
           <span id="progressText">0% (0 / 100 soutiens)</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill" id="progressBar"></div>
         </div>
 
-        <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">
+        <div
+          style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">
           Répartition dynamique par licence (Initialisée à 0 · Équilibrée au vote)
         </div>
         <div class="bar-chart">
           <div class="bar-item">
-            <div class="bar-wrap"><div class="bar-col" id="barL1"></div></div>
+            <div class="bar-wrap">
+              <div class="bar-col" id="barL1"></div>
+            </div>
             <strong>Licence 1 : <span id="valL1">0</span></strong>
           </div>
           <div class="bar-item">
-            <div class="bar-wrap"><div class="bar-col" id="barL2"></div></div>
+            <div class="bar-wrap">
+              <div class="bar-col" id="barL2"></div>
+            </div>
             <strong>Licence 2 : <span id="valL2">0</span></strong>
           </div>
           <div class="bar-item">
-            <div class="bar-wrap"><div class="bar-col" id="barL3"></div></div>
+            <div class="bar-wrap">
+              <div class="bar-col" id="barL3"></div>
+            </div>
             <strong>Licence 3 : <span id="valL3">0</span></strong>
           </div>
         </div>
@@ -873,7 +1084,8 @@
       <div>
         <strong style="font-size: 1.05rem;">
           <span class="pointing-hand">👉</span>
-          <span data-fr="Nous tendons vers la fin de la campagne dans :" data-ar="نتجه نحو نهاية الحملة الانتخابية خلال:">
+          <span data-fr="Nous tendons vers la fin de la campagne dans :"
+            data-ar="نتجه نحو نهاية الحملة الانتخابية خلال:">
             Nous tendons vers la fin de la campagne dans :
           </span>
         </strong>
@@ -901,13 +1113,15 @@
         <div class="shape-card shape-arch">
           <h3>📢 Informer avec clarté</h3>
           <p style="color: var(--text-muted); margin-top: 8px;">
-            Des annonces visuelles, structurées et diffusées à temps grâce à mon expertise en communication et audiovisuel.
+            Des annonces visuelles, structurées et diffusées à temps grâce à mon expertise en communication et
+            audiovisuel.
           </p>
         </div>
         <div class="shape-card shape-leaf">
           <h3>👂 Écouter chaque salle</h3>
           <p style="color: var(--text-muted); margin-top: 8px;">
-            Aucune salle n'est oubliée : vos idées et préoccupations remontent directement sur la table du bureau exécutif.
+            Aucune salle n'est oubliée : vos idées et préoccupations remontent directement sur la table du bureau
+            exécutif.
           </p>
         </div>
         <div class="shape-card shape-pill">
@@ -931,11 +1145,13 @@
         <div class="hub-col">
           <div class="pillar-node">
             <strong>01 · Pilier Transparence</strong>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Publication numérique des comptes rendus du bureau sous 48 h.</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Publication numérique des comptes rendus du bureau
+              sous 48 h.</p>
           </div>
           <div class="pillar-node">
             <strong>02 · Pilier Écoute Active</strong>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Boîte à idées physique et digitale avec réponse garantie sous 7 jours.</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Boîte à idées physique et digitale avec réponse
+              garantie sous 7 jours.</p>
           </div>
         </div>
 
@@ -948,11 +1164,13 @@
         <div class="hub-col">
           <div class="pillar-node">
             <strong>03 · Pilier Proximité</strong>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Un référent désigné par salle relié directement au Secrétariat Général.</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Un référent désigné par salle relié directement au
+              Secrétariat Général.</p>
           </div>
           <div class="pillar-node">
             <strong>04 · Pilier Redevabilité</strong>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">Tableau public « Promesses tenues » mis à jour en continu.</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Tableau public « Promesses tenues » mis à jour en
+              continu.</p>
           </div>
         </div>
       </div>
@@ -965,26 +1183,31 @@
       <div class="ladder-steps">
         <div class="ladder-item">
           <strong>Étape 1 · Mois 1 à 3 : Installation & Réseau de salles</strong>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Mise en place des référents L1-L3, ouverture des archives numériques et de la boîte à idées.</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Mise en place des référents L1-L3, ouverture des
+            archives numériques et de la boîte à idées.</p>
         </div>
         <div class="ladder-item">
           <strong>Étape 2 · Mois 4 à 6 : Premier Bilan & Dynamique culturelle</strong>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Publication trimestrielle des comptes rendus et appui aux tournois d'éloquence et projets étudiants.</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Publication trimestrielle des comptes rendus et appui
+            aux tournois d'éloquence et projets étudiants.</p>
         </div>
         <div class="ladder-item">
           <strong>Étape 3 · Mois 7 à 9 : Innovation & Suivi académique</strong>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Valorisation des talents numériques et suivi des doléances auprès de l'administration.</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Valorisation des talents numériques et suivi des
+            doléances auprès de l'administration.</p>
         </div>
         <div class="ladder-item">
           <strong>Étape 4 · Mois 10 à 12 : Bilan Général & Passation propre</strong>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Présentation publique du rapport annuel complet et transmission d'une base documentaire intacte.</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Présentation publique du rapport annuel complet et
+            transmission d'une base documentaire intacte.</p>
         </div>
       </div>
 
       <div class="bilan-box">
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: center;">
           <div>
-            <span class="post-highlight" style="margin-bottom: 4px;">📊 ESPACE BILAN OFFICIEL (ACTIVÉ DÈS MON ÉLECTION)</span>
+            <span class="post-highlight" style="margin-bottom: 4px;">📊 ESPACE BILAN OFFICIEL (ACTIVÉ DÈS MON
+              ÉLECTION)</span>
             <h3>Tableau de bord de redevabilité du SGA</h3>
           </div>
           <span style="font-weight: 800; color: var(--primary);">Statut : Prêt pour le 29 nov. 2026</span>
@@ -1053,18 +1276,42 @@
       <h2>Mes Réalisations & Projets Numériques</h2>
 
       <div class="gallery-12">
-        <div class="real-slot"><img src="images/realisation-1.jpg" alt="Réalisation 1"><div class="real-caption">01 · Concours d'Éloquence</div></div>
-        <div class="real-slot"><img src="images/realisation-2.jpg" alt="Réalisation 2"><div class="real-caption">02 · Secrétariat Provisoire</div></div>
-        <div class="real-slot"><img src="images/realisation-3.jpg" alt="Réalisation 3"><div class="real-caption">03 · Audiovisuel GREEN-RICE</div></div>
-        <div class="real-slot"><img src="images/realisation-4.jpg" alt="Réalisation 4"><div class="real-caption">04 · Affiche Événementielle</div></div>
-        <div class="real-slot"><img src="images/realisation-5.jpg" alt="Réalisation 5"><div class="real-caption">05 · Organisation Salle Info 2</div></div>
-        <div class="real-slot"><img src="images/realisation-6.jpg" alt="Réalisation 6"><div class="real-caption">06 · Prise de Parole Publique</div></div>
-        <div class="real-slot"><img src="images/realisation-7.jpg" alt="Réalisation 7"><div class="real-caption">07 · Design Graphique</div></div>
-        <div class="real-slot"><img src="images/realisation-8.jpg" alt="Réalisation 8"><div class="real-caption">08 · Projet Web Étudiant</div></div>
-        <div class="real-slot"><img src="images/realisation-9.jpg" alt="Réalisation 9"><div class="real-caption">09 · Couverture Médiatique</div></div>
-        <div class="real-slot"><img src="images/realisation-10.jpg" alt="Réalisation 10"><div class="real-caption">10 · Animation Conférence</div></div>
-        <div class="real-slot"><img src="images/realisation-11.jpg" alt="Réalisation 11"><div class="real-caption">11 · Archive Numérique</div></div>
-        <div class="real-slot"><img src="images/realisation-12.jpg" alt="Réalisation 12"><div class="real-caption">12 · Action Associative</div></div>
+        <div class="real-slot"><img src="images/realisation-1.jpg" alt="Réalisation 1">
+          <div class="real-caption">01 · Concours d'Éloquence</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-2.jpg" alt="Réalisation 2">
+          <div class="real-caption">02 · Secrétariat Provisoire</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-3.jpg" alt="Réalisation 3">
+          <div class="real-caption">03 · Audiovisuel GREEN-RICE</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-4.jpg" alt="Réalisation 4">
+          <div class="real-caption">04 · Affiche Événementielle</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-5.jpg" alt="Réalisation 5">
+          <div class="real-caption">05 · Organisation Salle Info 2</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-6.jpg" alt="Réalisation 6">
+          <div class="real-caption">06 · Prise de Parole Publique</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-7.jpg" alt="Réalisation 7">
+          <div class="real-caption">07 · Design Graphique</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-8.jpg" alt="Réalisation 8">
+          <div class="real-caption">08 · Projet Web Étudiant</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-9.jpg" alt="Réalisation 9">
+          <div class="real-caption">09 · Couverture Médiatique</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-10.jpg" alt="Réalisation 10">
+          <div class="real-caption">10 · Animation Conférence</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-11.jpg" alt="Réalisation 11">
+          <div class="real-caption">11 · Archive Numérique</div>
+        </div>
+        <div class="real-slot"><img src="images/realisation-12.jpg" alt="Réalisation 12">
+          <div class="real-caption">12 · Action Associative</div>
+        </div>
       </div>
 
       <div class="projects-dual">
@@ -1102,11 +1349,13 @@
           <div class="section-tag">Échange direct</div>
           <h2>Contacter Samir Dahab</h2>
           <p style="color: var(--text-muted); margin: 10px 0 18px;">
-            Une question sur mon programme SGA ou une suggestion pour le club ? Écrivez-moi directement via WhatsApp ou rejoignez mes réseaux officiels.
+            Une question sur mon programme SGA ou une suggestion pour le club ? Écrivez-moi directement via WhatsApp ou
+            rejoignez mes réseaux officiels.
           </p>
 
           <p style="font-weight: 700; margin-bottom: 14px;">
-            ✉️ Email officiel : <a href="mailto:samirfilsdelor3@gmail.com" style="color: var(--primary); text-decoration: none;">samirfilsdelor3@gmail.com</a>
+            ✉️ Email officiel : <a href="mailto:samirfilsdelor3@gmail.com"
+              style="color: var(--primary); text-decoration: none;">samirfilsdelor3@gmail.com</a>
           </p>
 
           <div class="social-row">
@@ -1321,4 +1570,5 @@
     }, 1000);
   </script>
 </body>
+
 </html>
